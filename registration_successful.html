@@ -1,0 +1,14 @@
+{% extends 'base_auth.html' %} 
+{% block title %}Success{% endblock %} 
+{% block content %}
+<div class="text-center">
+  <i class="fas fa-check-circle fa-4x mb-3" style="color: var(--cypher-neon);"></i>
+  <h2 class="card-title h4 mb-2">Registration Successful!</h2>
+  <p class="card-text text-muted mb-4">
+    Your account has been created.
+  </p>
+  <div class="d-grid">
+    <a href="{% url 'login' %}" class="btn btn-primary">Log In Now</a>
+  </div>
+</div>
+{% endblock %}

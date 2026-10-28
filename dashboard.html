@@ -1,0 +1,117 @@
+{% extends 'base_dashboard.html' %}
+{% block title %}Dashboard | Cypher{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h6 class="text-secondary text-uppercase mb-1">Overview</h6>
+        <h2 class="fw-light text-white">System Dashboard</h2>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+        <span class="badge rounded-pill text-bg-success bg-opacity-25 text-success border border-success">
+            ● SYSTEM ONLINE
+        </span>
+        <button onclick="window.location.reload()" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-sync-alt me-2"></i>Refresh
+        </button>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    
+    <div class="col-md-4">
+        <div class="card h-100 border-start border-4 border-info"> <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-secondary text-uppercase small fw-bold mb-1">Active Cameras</p>
+                        <h1 class="display-4 fw-bold text-white mb-0">{{ camera_count }}</h1>
+                    </div>
+                    <i class="fas fa-video fa-2x text-info opacity-50"></i>
+                </div>
+                <div class="mt-3">
+                    <span class="badge text-bg-info bg-opacity-10 text-info">Live Monitoring</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-start border-4 border-danger">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-secondary text-uppercase small fw-bold mb-1">Threats Detected</p>
+                        <h1 class="display-4 fw-bold text-white mb-0">{{ alert_count }}</h1>
+                    </div>
+                    <i class="fas fa-exclamation-triangle fa-2x text-danger opacity-50"></i>
+                </div>
+                <div class="mt-3">
+                    <span class="badge text-bg-danger bg-opacity-10 text-danger">Action Required</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-start border-4 border-success">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-secondary text-uppercase small fw-bold mb-1">AI Modules</p>
+                        <h1 class="display-4 fw-bold text-white mb-0">ON</h1>
+                    </div>
+                    <i class="fas fa-brain fa-2x text-success opacity-50"></i>
+                </div>
+                <div class="mt-3">
+                    <span class="badge text-bg-success bg-opacity-10 text-success">Weapons & Masks</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-lg">
+    <div class="card-header bg-transparent border-secondary py-3">
+        <h5 class="mb-0 fw-light"><i class="fas fa-list me-2"></i>Recent Activity Log</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light opacity-75">
+                <tr>
+                    <th class="py-3 ps-4">Type</th>
+                    <th class="py-3">Camera Location</th>
+                    <th class="py-3">Description</th>
+                    <th class="py-3">Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in latest_alerts %}
+                <tr>
+                    <td class="ps-4">
+                        {% if alert.alert_type == 'weapon' %}
+                            <span class="badge bg-danger">WEAPON</span>
+                        {% elif alert.alert_type == 'fire' %}
+                            <span class="badge bg-warning text-dark">FIRE</span>
+                        {% else %}
+                            <span class="badge bg-secondary">INFO</span>
+                        {% endif %}
+                    </td>
+                    <td class="fw-bold text-white">{{ alert.camera_name }}</td>
+                    <td class="text-secondary">{{ alert.description }}</td>
+                    <td class="text-muted font-monospace">{{ alert.timestamp|date:"H:i:s" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-5 text-muted">
+                        <i class="fas fa-check-circle fa-2x mb-3"></i>
+                        <p>No alerts recorded recently.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

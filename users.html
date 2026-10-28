@@ -1,0 +1,67 @@
+{% extends 'base_dashboard.html' %}
+{% block title %}Users | Cypher{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h6 class="text-secondary text-uppercase mb-1">Administration</h6>
+        <h2 class="fw-light text-white">User Management</h2>
+    </div>
+    <button class="btn btn-primary">
+        <i class="fas fa-user-plus me-2"></i> Invite User
+    </button>
+</div>
+
+<div class="card shadow-lg border-0">
+    <div class="card-header bg-transparent border-secondary py-3">
+        <h5 class="mb-0 fw-light"><i class="fas fa-users me-2"></i>Registered Accounts</h5>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light opacity-75">
+                <tr>
+                    <th class="py-3 ps-4">User Identity</th>
+                    <th class="py-3">Email Address</th>
+                    <th class="py-3">Role</th>
+                    <th class="py-3">Status</th>
+                    <th class="py-3 text-end pe-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td class="ps-4">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3 text-white fw-bold" style="width: 40px; height: 40px;">
+                                {{ u.username|first|upper }}
+                            </div>
+                            <div>
+                                <div class="fw-bold text-white">{{ u.username }}</div>
+                                <div class="small text-muted">ID: #{{ u.id }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-secondary">{{ u.email }}</td>
+                    <td>
+                        {% if u.is_superuser %}
+                            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger">ADMIN</span>
+                        {% else %}
+                            <span class="badge bg-info bg-opacity-25 text-info border border-info">STAFF</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="badge rounded-pill text-bg-success bg-opacity-10 text-success">● Active</span>
+                    </td>
+                    <td class="text-end pe-4">
+                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></button>
+                        {% if not u.is_superuser %}
+                        <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

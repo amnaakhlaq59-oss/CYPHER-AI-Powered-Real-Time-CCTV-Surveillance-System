@@ -1,0 +1,70 @@
+{% extends 'base_auth.html' %} 
+{% load socialaccount %}
+
+{% block title %}Log In{% endblock %} 
+
+{% block content %}
+<h2 class="card-title text-center h4 mb-2">Welcome Back</h2>
+<p class="card-text text-center text-muted mb-4">
+  Please enter your details to log in.
+</p>
+
+<div class="d-grid mb-4">
+    <a href="{% provider_login_url 'google' %}" class="btn btn-light d-flex align-items-center justify-content-center" style="border-radius: 5px; font-weight: 600; color: #333; padding: 10px;">
+        <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google" width="24" height="24" class="me-2">
+        Continue with Google
+    </a>
+</div>
+
+<div class="text-center text-muted mb-3">
+    <span>OR</span>
+</div>
+
+<form method="post" class="auth-form">
+  {% csrf_token %}
+
+  {% if form.errors %}
+    <div class="alert alert-danger">
+      <p class="mb-0">Username or Password is incorrect.</p>
+    </div>
+  {% endif %}
+  
+  <div class="mb-3">
+    <label for="username" class="form-label">Username</label>
+    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required />
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <div class="input-group">
+      <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required />
+      <span class="input-group-text" id="togglePassword" style="cursor: pointer; border-left: none;">
+        <i class="fas fa-eye"></i>
+      </span>
+    </div>
+  </div>
+
+  <div class="d-grid mt-4">
+    <button type="submit" class="btn btn-primary">Log In</button>
+  </div>
+</form>
+
+<div class="text-center mt-4">
+  <a href="{% url 'password_reset' %}">Forgot Password?</a>
+  <span class="text-muted mx-2">|</span>
+  <a href="{% url 'signup' %}">Create an Account</a>
+</div>
+
+<script>
+  const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#password');
+  const icon = togglePassword.querySelector('i');
+
+  togglePassword.addEventListener('click', function (e) {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    icon.classList.toggle('fa-eye-slash');
+    icon.classList.toggle('fa-eye');
+  });
+</script>
+{% endblock %}
